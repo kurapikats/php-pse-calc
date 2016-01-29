@@ -308,4 +308,30 @@ class Calc extends Pse
         return $results;
     }
 
+    /**
+     * Get Buy and Sell Estimates by Percentage
+     *
+     * @param  float   $budget    Budget
+     * @param  float   $buyPrice  Stock Buy Price
+     * @param  float   $value     Desired Percentage
+     *
+     * @return  mixed  Buy and Sell Estimates
+     */
+    public function getEstimateByPercentage($budget, $buyPrice, $value) {
+        return $this->getEstimateBy('percentage', $budget, $buyPrice, $value);
+    }
+
+    /**
+     * Get Buy and Sell Estimates by Sell Price
+     *
+     * @param  float   $budget    Budget
+     * @param  float   $buyPrice  Stock Buy Price
+     * @param  float   $value     Desired Sell Price
+     *
+     * @return  mixed  Buy and Sell Estimates
+     */
+    public function getEstimateBySellPrice($budget, $buyPrice, $value) {
+        return $this->getEstimateBy('sellprice', $budget, $buyPrice, $value);
+    }
+
 }
