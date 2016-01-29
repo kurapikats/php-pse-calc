@@ -1,4 +1,4 @@
-Philippine Stock Exchange Calculator!
+Philippine Stock Exchange Calculator
 ===================
 
 This is a small Calculator tool help Investors in the Philippines plan their Stock Trades and Investments.
