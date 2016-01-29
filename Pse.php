@@ -3,8 +3,8 @@
 /**
  * Philippine Stock Exchange common calculators
  *
- * @author Jesus B. Nana
- * @version 1.0
+ * @author   Jesus B. Nana
+ * @version  1.0
  */
 class Pse
 {
@@ -14,10 +14,10 @@ class Pse
      * Used when a user wants to get the target sell percentage
      * using the desired sell price
      *
-     * @param $start float Start buy price
-     * @param $end float Target sell price
+     * @param  float  $start  Start buy price
+     * @param  float  $end    Target sell price
      *
-     * @return float Target Percentage
+     * @return  float  Target Percentage
      */
     protected function getPercentageDiff($start, $end) {
         return (($end - $start) / $start) * 100;
@@ -29,10 +29,10 @@ class Pse
      * Used when a user wants to get the target sell price
      * using the desired percentage
      *
-     * @param $start float Start buy price
-     * @param $percentage float Target percentage, can use +/- values
+     * @param  float  $start       Start buy price
+     * @param  float  $percentage  Target percentage, can use +/- values
      *
-     * @return float Target Sell Amount
+     * @return  float  Target Sell Amount
      */
     protected function getSellPriceByPercentage($start, $percentage) {
         return (($start * $percentage) / 100) + $start;
@@ -41,10 +41,10 @@ class Pse
     /**
      * Get the PSE Board Lot Size based on stock price
      *
-     * @link http://www.pseacademy.com.ph/LM/investors~details/id-1317973500501/The_Board_Lot_Table.html
-     * @param $price float Buy price
+     * @link   http://www.pseacademy.com.ph/LM/investors~details/id-1317973500501/The_Board_Lot_Table.html
+     * @param  float  $price  Buy price
      *
-     * @return int PSE Board Lot Size
+     * @return  int  PSE Board Lot Size
      */
     protected function getBoardLotSize($price) {
         switch ($price) {

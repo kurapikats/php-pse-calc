@@ -5,8 +5,8 @@ require 'Pse.php';
 /**
  * Philippine Stock Exchange Calculator Library
  *
- * @author Jesus B. Nana
- * @version 1.0
+ * @author   Jesus B. Nana
+ * @version  1.0
  */
 class Calc extends Pse
 {
@@ -29,10 +29,10 @@ class Calc extends Pse
     /**
      * Get Buy Estimates
      *
-     * @param $price float Buy Price
-     * @param $shares int Total number of shares to buy
+     * @param  float  $price   Buy Price
+     * @param  int    $shares  Total number of shares to buy
      *
-     * @return mixed Buy Estimates
+     * @return  mixed  Buy Estimates
      */
     public function buy($price, $shares) {
         $price  = (float) $price;
@@ -63,10 +63,10 @@ class Calc extends Pse
     /**
      * Get Sell Estimates
      *
-     * @param $price float Sell Price
-     * @param $shares int Total number of shares to sell
+     * @param  float  $price   Sell Price
+     * @param  int    $shares  Total number of shares to sell
      *
-     * @return mixed Sell Estimates
+     * @return  mixed  Sell Estimates
      */
     public function sell($price, $shares) {
         $price  = (float) $price;
@@ -99,9 +99,9 @@ class Calc extends Pse
     /**
      * Get Commission (VAT)
      *
-     * @param $gross float Gross Amount
+     * @param  float  $gross  Gross Amount
      *
-     * @return float Commission
+     * @return  float  Commission
      */
     private function getCommission($gross) {
         $commission = ($gross * $this->commission) / 100;
@@ -116,9 +116,9 @@ class Calc extends Pse
     /**
      * Get Commission Value Added Tax (VAT)
      *
-     * @param $gross float Commission
+     * @param  float  $gross  Commission
      *
-     * @return float Commission VAT
+     * @return  float  Commission VAT
      */
     private function getCommissionVat($commission) {
         return ($commission * $this->commissionVat) / 100;
@@ -127,9 +127,9 @@ class Calc extends Pse
     /**
      * Get Philippine Stock Exchange Transaction Fee
      *
-     * @param $gross float Gross Amount
+     * @param  float  $gross  Gross Amount
      *
-     * @return float PSE Transfer Fee
+     * @return  float  PSE Transfer Fee
      */
     private function getPseTransFee($gross) {
         return ($gross * $this->transFee) / 100;
@@ -138,9 +138,9 @@ class Calc extends Pse
     /**
      * Get Securities Clearing Corporation of The Philippines Fee (SCCP)
      *
-     * @param $gross float Gross Amount
+     * @param  float  $gross  Gross Amount
      *
-     * @return float SCCP
+     * @return  float  SCCP
      */
     private function getSccp($gross) {
         return ($gross * $this->sccp) / 100;
@@ -150,12 +150,12 @@ class Calc extends Pse
     /**
      * Get Total Buy Fees
      *
-     * @param $commission float Commission Fee
-     * @param $commissionVat float Commission VAT Fee
-     * @param $transFee float PSE Transfer Fee
-     * @param $sccp float SCCP Fee
+     * @param  float  $commission     Commission Fee
+     * @param  float  $commissionVat  Commission VAT Fee
+     * @param  float  $transFee       PSE Transfer Fee
+     * @param  float  $sccp           SCCP Fee
      *
-     * @return float Total Buy Fees
+     * @return  float  Total Buy Fees
      */
     private function getBuyFees($commission, $commissionVat, $transFee, $sccp) {
         return $commission + $commissionVat + $transFee + $sccp;
@@ -164,13 +164,13 @@ class Calc extends Pse
     /**
      * Get Total Sell Fees
      *
-     * @param $commission float Commission Fee
-     * @param $commissionVat float Commission VAT Fee
-     * @param $transFee float PSE Transfer Fee
-     * @param $sccp float SCCP Fee
-     * @param $salexTax float Sales Tax Fee
+     * @param  float  $commission     Commission Fee
+     * @param  float  $commissionVat  Commission VAT Fee
+     * @param  float  $transFee       PSE Transfer Fee
+     * @param  float  $sccp           SCCP Fee
+     * @param  float  $salexTax       Sales Tax Fee
      *
-     * @return float Total Sell Fees
+     * @return  float  Total Sell Fees
      */
     private function getSellFees($commission, $commissionVat, $transFee, $sccp,
         $salesTax) {
@@ -184,10 +184,10 @@ class Calc extends Pse
     /**
      * Get Buy Net Total
      *
-     * @param $gross float Gross Amount
-     * @param $buyFees float Total Buy Fees
+     * @param  float  $gross    Gross Amount
+     * @param  float  $buyFees  Total Buy Fees
      *
-     * @return float Buy Net Total
+     * @return  float  Buy Net Total
      */
     private function getBuyNetAmount($gross, $buyFees) {
         return $gross + $buyFees;
@@ -196,10 +196,10 @@ class Calc extends Pse
     /**
      * Get Sell Net Total
      *
-     * @param $gross float Gross Amount
-     * @param $sellFees float Total Sell Fees
+     * @param  float  $gross  Gross Amount
+     * @param  float  $sellFees  Total Sell Fees
      *
-     * @return float Sell Net Total
+     * @return  float  Sell Net Total
      */
     private function getSellNetAmount($gross, $sellFees) {
         return $gross - $sellFees;
@@ -208,23 +208,51 @@ class Calc extends Pse
     /**
      * Get Sales Tax
      *
-     * @param $gross float Gross Amount
+     * @param  float  $gross  Gross Amount
      *
-     * @return float Sales Tax
+     * @return  float  Sales Tax
      */
     private function getSalesTax($gross) {
         return ($gross * $this->salesTax) / 100;
     }
 
     /**
+     * Recompute Budget 
+     * 
+     * @param  int    $budget        Budget
+     * @param  float  $buyPrice      Buy Price
+     * @param  int    $totalShares   Total Number of Shares
+     * @param  int    $boardLotSize  Board Lot Size
+     * 
+     * @return  mixed  Buy Total with Fees and Total number of Shares 
+     */
+    private function recomputeBudget($budget, $buyPrice, $totalShares, 
+        $boardLotSize) {
+        
+        recomputeBudget:
+
+        $buyTotalWithFees = $this->buy($buyPrice, $totalShares)['totalAmount'];
+
+        if ($buyTotalWithFees > $budget) {
+            $totalShares = $totalShares - $boardLotSize;
+            goto recomputeBudget;
+        } 
+
+        $data = ["buyTotalWithFees" => $buyTotalWithFees, 
+                 "totalShares"      => $totalShares];
+
+        return $data;       
+    }
+
+    /**
      * Get Buy and Sell Estimates
      *
-     * @param $type string Can be "percentage" or "sellprice"
-     * @param $budget float Budget
-     * @param $buyPrice float Stock Buy Price
-     * @param $value float Desired Percentage or Sell Price
+     * @param  string  $type      Can be "percentage" or "sellprice"
+     * @param  float   $budget    Budget
+     * @param  float   $buyPrice  Stock Buy Price
+     * @param  float   $value     Desired Percentage or Sell Price
      *
-     * @return mixed Buy and Sell Estimates
+     * @return  mixed  Buy and Sell Estimates
      */
     public function getEstimateBy($type, $budget, $buyPrice, $value) {
 
@@ -251,21 +279,16 @@ class Calc extends Pse
         $sharesPerLot   = $buyPrice * $boardLotSize;
         $totalShares    = floor($budget / $sharesPerLot) * $boardLotSize;
 
-        recomputeBudget:
-
         if ($totalShares < $boardLotSize) {
             $results['error'] = "Not enough Budget";
             return $results;
         }
 
         $buyTotal           = $buyPrice * $totalShares;
-        $buyTotalWithFees   = $this->buy($buyPrice, $totalShares)['totalAmount'];
-
-        if ($buyTotalWithFees > $budget) {
-            $totalShares = $totalShares - $boardLotSize;
-            goto recomputeBudget;
-        }
-
+        $computedBudget     = $this->recomputeBudget($budget, $buyPrice, 
+                              $totalShares, $boardLotSize);
+        $totalShares        = $computedBudget['totalShares'];
+        $buyTotalWithFees   = $computedBudget['buyTotalWithFees'];
         $sellTotalWithFees  = $this->sell($sellPrice, $totalShares)['totalAmount'];
         $netEarnings        = ($sellTotalWithFees - $buyTotalWithFees);
 
@@ -284,4 +307,5 @@ class Calc extends Pse
 
         return $results;
     }
+
 }
