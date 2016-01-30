@@ -1,4 +1,4 @@
-<?php namespace kurapikats\psecalc;
+<?php namespace psecalc;
 
 /**
  * Philippine Stock Exchange common calculators

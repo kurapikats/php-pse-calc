@@ -1,6 +1,6 @@
-<?php namespace kurapikats\psecalc;
+<?php namespace psecalc;
 
-require 'Pse.php';
+require 'vendor/autoload.php';
 
 /**
  * Philippine Stock Exchange Calculator Library
@@ -34,9 +34,11 @@ class Calc extends Pse
      *
      * @return  mixed  Buy Estimates
      */
-    public function buy($price, $shares) {
-        $price  = (float) $price;
-        $shares = (int) $shares;
+    public function buy($price, $shares) {        
+
+        if (!is_numeric($price) or !is_int($shares)) {
+            throw new \InvalidArgumentException;
+        }
 
         $gross          = $price * $shares;
         $commission     = $this->getCommission($gross);
@@ -69,8 +71,10 @@ class Calc extends Pse
      * @return  mixed  Sell Estimates
      */
     public function sell($price, $shares) {
-        $price  = (float) $price;
-        $shares = (int) $shares;
+
+        if (!is_numeric($price) or !is_int($shares)) {
+            throw new \InvalidArgumentException;
+        }
 
         $gross          = $price * $shares;
         $commission     = $this->getCommission($gross);
@@ -174,7 +178,6 @@ class Calc extends Pse
      */
     private function getSellFees($commission, $commissionVat, $transFee, $sccp,
         $salesTax) {
-
         $buyFees = $this->getBuyFees($commission, $commissionVat, $transFee,
             $sccp);
 
@@ -228,7 +231,7 @@ class Calc extends Pse
      */
     private function recomputeBudget($budget, $buyPrice, $totalShares, 
         $boardLotSize) {
-        
+
         recomputeBudget:
 
         $buyTotalWithFees = $this->buy($buyPrice, $totalShares)['totalAmount'];
@@ -254,11 +257,7 @@ class Calc extends Pse
      *
      * @return  mixed  Buy and Sell Estimates
      */
-    public function getEstimateBy($type, $budget, $buyPrice, $value) {
-
-        $budget     = (float) $budget;
-        $buyPrice   = (float) $buyPrice;
-        $value      = (float) $value;
+    private function getEstimateBy($type, $budget, $buyPrice, $value) {             
 
         switch ($type) {
             case 'percentage':
@@ -277,7 +276,7 @@ class Calc extends Pse
 
         $boardLotSize   = $this->getBoardLotSize($buyPrice);
         $sharesPerLot   = $buyPrice * $boardLotSize;
-        $totalShares    = floor($budget / $sharesPerLot) * $boardLotSize;
+        $totalShares    = (int) floor($budget / $sharesPerLot) * $boardLotSize;
 
         if ($totalShares < $boardLotSize) {
             $results['error'] = "Not enough Budget";
@@ -318,6 +317,13 @@ class Calc extends Pse
      * @return  mixed  Buy and Sell Estimates
      */
     public function getEstimateByPercentage($budget, $buyPrice, $value) {
+
+        foreach (func_get_args() as $v) {            
+            if (!is_numeric($v)) {
+                throw new \InvalidArgumentException;
+            }
+        }
+
         return $this->getEstimateBy('percentage', $budget, $buyPrice, $value);
     }
 
@@ -331,6 +337,13 @@ class Calc extends Pse
      * @return  mixed  Buy and Sell Estimates
      */
     public function getEstimateBySellPrice($budget, $buyPrice, $value) {
+
+        foreach (func_get_args() as $v) {            
+            if (!is_numeric($v)) {
+                throw new \InvalidArgumentException;
+            }
+        }
+
         return $this->getEstimateBy('sellprice', $budget, $buyPrice, $value);
     }
 
