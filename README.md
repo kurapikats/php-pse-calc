@@ -23,9 +23,9 @@ $data_percentage = $pseCalc->getEstimateByPercentage($budget, $buyPrice, $percen
 
 print_r($data_percentage);
 ```
-  *It would return something similar this:*
-  
   **Data on Buy/Sell by Percentage**
+  
+  *It would return something similar to this:*
 ```
 [calculatorType] => Percentage
 [budget] => 10000
@@ -50,9 +50,9 @@ $data_sellprice = $pseCalc->getEstimateBySellPrice($budget, $buyPrice, $sellPric
 
 print_r($data_sellprice);
 ```
-  *It would return something similar this:*
-  
   **Data on Buy/Sell by Sell Price**
+  
+  *It would return something similar to this:*
 ```
 [calculatorType] => Sell Price
 [budget] => 10000

@@ -1,8 +1,8 @@
 {
     "autoload": {
-        "classmap": [
-            "./"
-        ]
+        "psr-4": {
+            "PseCalc\\": "./"
+        }
     },
     "require-dev": {
         "phpunit/phpunit": "5.1.*"
