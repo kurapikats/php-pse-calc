@@ -20,7 +20,7 @@ use kurapikats\psecalc\Calc;
 $calc = new Calc();
 // $x = $calc->getSellPriceByPercentage(10000, 20);
 
-$x = $calc->getEstimateBy('sellprice', 10000, 20, 20.93);
+$x = $calc->getEstimateByPercentage(10000, 20, 20.93);
 
 //$x = $calc->sell(9800, 100);
 
