@@ -18,8 +18,8 @@ class PseCalc extends Calc
      *
      * @return  mixed  Buy Estimates
      */
-    public function buy($price, $shares) {        
-
+    public function buy($price, $shares)
+    {
         if (!is_numeric($price) or !is_int($shares)) {
             throw new \InvalidArgumentException;
         }
@@ -54,8 +54,8 @@ class PseCalc extends Calc
      *
      * @return  mixed  Sell Estimates
      */
-    public function sell($price, $shares) {
-
+    public function sell($price, $shares)
+    {
         if (!is_numeric($price) or !is_int($shares)) {
             throw new \InvalidArgumentException;
         }
@@ -93,9 +93,9 @@ class PseCalc extends Calc
      *
      * @return  mixed  Buy and Sell Estimates
      */
-    public function getEstimateByPercentage($budget, $buyPrice, $value) {
-
-        foreach (func_get_args() as $v) {            
+    public function getEstimateByPercentage($budget, $buyPrice, $value)
+    {
+        foreach (func_get_args() as $v) {
             if (!is_numeric($v)) {
                 throw new \InvalidArgumentException;
             }
@@ -113,14 +113,14 @@ class PseCalc extends Calc
      *
      * @return  mixed  Buy and Sell Estimates
      */
-    public function getEstimateBySellPrice($budget, $buyPrice, $value) {
-
-        foreach (func_get_args() as $v) {            
+    public function getEstimateBySellPrice($budget, $buyPrice, $value)
+    {
+        foreach (func_get_args() as $v) {
             if (!is_numeric($v)) {
                 throw new \InvalidArgumentException;
             }
         }
 
         return $this->getEstimateBy('sellprice', $budget, $buyPrice, $value);
-    }        
+    }
 }

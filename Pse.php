@@ -19,7 +19,8 @@ class Pse
      *
      * @return  float  Target Percentage
      */
-    protected function getPercentageDiff($start, $end) {
+    protected function getPercentageDiff($start, $end)
+    {
         return (($end - $start) / $start) * 100;
     }
 
@@ -34,7 +35,8 @@ class Pse
      *
      * @return  float  Target Sell Amount
      */
-    protected function getSellPriceByPercentage($start, $percentage) {
+    protected function getSellPriceByPercentage($start, $percentage)
+    {
         return (($start * $percentage) / 100) + $start;
     }
 
@@ -46,7 +48,8 @@ class Pse
      *
      * @return  int  PSE Board Lot Size
      */
-    protected function getBoardLotSize($price) {
+    protected function getBoardLotSize($price)
+    {
         switch ($price) {
             case $price >= 1000.0000:
                 $size = 5;

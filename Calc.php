@@ -17,7 +17,8 @@ class Calc extends Pse
     private $sccp;
     private $salesTax;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->minCommission = 20;
         $this->commission    = 0.25;
         $this->commissionVat = 12;
@@ -33,7 +34,8 @@ class Calc extends Pse
      *
      * @return  float  Commission
      */
-    protected function getCommission($gross) {
+    protected function getCommission($gross)
+    {
         $commission = ($gross * $this->commission) / 100;
 
         if ($commission < $this->minCommission) {
@@ -50,7 +52,8 @@ class Calc extends Pse
      *
      * @return  float  Commission VAT
      */
-    protected function getCommissionVat($commission) {
+    protected function getCommissionVat($commission)
+    {
         return ($commission * $this->commissionVat) / 100;
     }
 
@@ -61,7 +64,8 @@ class Calc extends Pse
      *
      * @return  float  PSE Transfer Fee
      */
-    protected function getPseTransFee($gross) {
+    protected function getPseTransFee($gross)
+    {
         return ($gross * $this->transFee) / 100;
     }
 
@@ -72,7 +76,8 @@ class Calc extends Pse
      *
      * @return  float  SCCP
      */
-    protected function getSccp($gross) {
+    protected function getSccp($gross)
+    {
         return ($gross * $this->sccp) / 100;
     }
 
@@ -87,7 +92,8 @@ class Calc extends Pse
      *
      * @return  float  Total Buy Fees
      */
-    protected function getBuyFees($commission, $commissionVat, $transFee, $sccp) {
+    protected function getBuyFees($commission, $commissionVat, $transFee, $sccp)
+    {
         return $commission + $commissionVat + $transFee + $sccp;
     }
 
@@ -103,7 +109,8 @@ class Calc extends Pse
      * @return  float  Total Sell Fees
      */
     protected function getSellFees($commission, $commissionVat, $transFee, $sccp,
-        $salesTax) {
+        $salesTax)
+    {
         $buyFees = $this->getBuyFees($commission, $commissionVat, $transFee,
             $sccp);
 
@@ -118,7 +125,8 @@ class Calc extends Pse
      *
      * @return  float  Buy Net Total
      */
-    protected function getBuyNetAmount($gross, $buyFees) {
+    protected function getBuyNetAmount($gross, $buyFees)
+    {
         return $gross + $buyFees;
     }
 
@@ -130,7 +138,8 @@ class Calc extends Pse
      *
      * @return  float  Sell Net Total
      */
-    protected function getSellNetAmount($gross, $sellFees) {
+    protected function getSellNetAmount($gross, $sellFees)
+    {
         return $gross - $sellFees;
     }
 
@@ -141,7 +150,8 @@ class Calc extends Pse
      *
      * @return  float  Sales Tax
      */
-    protected function getSalesTax($gross) {
+    protected function getSalesTax($gross)
+    {
         return ($gross * $this->salesTax) / 100;
     }
 
@@ -155,9 +165,9 @@ class Calc extends Pse
      * 
      * @return  mixed  Buy Total with Fees and Total number of Shares 
      */
-    protected function recomputeBudget($budget, $buyPrice, $totalShares, 
-        $boardLotSize) {
-
+    protected function recomputeBudget($budget, $buyPrice, $totalShares,
+        $boardLotSize)
+    {
         recomputeBudget:
 
         $buyTotalWithFees = $this->buy($buyPrice, $totalShares)['totalAmount'];
@@ -165,12 +175,12 @@ class Calc extends Pse
         if ($buyTotalWithFees > $budget) {
             $totalShares = $totalShares - $boardLotSize;
             goto recomputeBudget;
-        } 
+        }
 
-        $data = ["buyTotalWithFees" => $buyTotalWithFees, 
+        $data = ["buyTotalWithFees" => $buyTotalWithFees,
                  "totalShares"      => $totalShares];
 
-        return $data;       
+        return $data;
     }
 
     /**
@@ -183,8 +193,8 @@ class Calc extends Pse
      *
      * @return  mixed  Buy and Sell Estimates
      */
-    protected function getEstimateBy($type, $budget, $buyPrice, $value) {             
-
+    protected function getEstimateBy($type, $budget, $buyPrice, $value)
+    {
         switch ($type) {
             case 'percentage':
                 // the $value here is the target percentage
@@ -210,7 +220,7 @@ class Calc extends Pse
         }
 
         $buyTotal           = $buyPrice * $totalShares;
-        $computedBudget     = $this->recomputeBudget($budget, $buyPrice, 
+        $computedBudget     = $this->recomputeBudget($budget, $buyPrice,
                               $totalShares, $boardLotSize);
         $totalShares        = $computedBudget['totalShares'];
         $buyTotalWithFees   = $computedBudget['buyTotalWithFees'];
@@ -232,5 +242,4 @@ class Calc extends Pse
 
         return $results;
     }
-
 }

@@ -2,13 +2,16 @@
 
 use PseCalc\PseCalc;
 
-class PseTest extends PHPUnit_Framework_TestCase {
+class PseTest extends PHPUnit_Framework_TestCase
+{
 
-    public function setUp() {
+    public function setUp()
+    {
         $this->pseCalc = new PseCalc;
     }
 
-    public function testBuyReturnsArray() {
+    public function testBuyReturnsArray()
+    {
         $price  = 5.1;
         $shares = 10;
         $this->assertTrue(is_array($this->pseCalc->buy($price, $shares)));
@@ -17,7 +20,8 @@ class PseTest extends PHPUnit_Framework_TestCase {
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testThrowsExceptionIfNonNumericIsPassed() {
+    public function testThrowsExceptionIfNonNumericIsPassed()
+    {
         $this->pseCalc->buy('1', '1');
     }
 }
